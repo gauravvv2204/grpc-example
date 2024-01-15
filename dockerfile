@@ -6,6 +6,5 @@ COPY . ./
 RUN go mod download
 RUN go build -o server grpc-server/server.go
 RUN go build -o client grpc-client/client.go
-  
 EXPOSE 50051
 CMD ["./server"]

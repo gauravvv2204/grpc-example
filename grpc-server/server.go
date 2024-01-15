@@ -40,7 +40,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		panic(err)
 	}
 
-	return &pb.HelloReply{Val: "Val: " + val}, nil
+	return &pb.HelloReply{Val: val}, nil
 }
 
 func main() {

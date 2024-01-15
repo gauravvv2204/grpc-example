@@ -23,9 +23,7 @@ var (
 	val  = flag.String("val", defaultVal, "value")
 )
 
-func main() {
-	flag.Parse()
-	// Set up a connection to the server.
+func sendRequest(_key string, _val string) *pb.HelloReply {
 	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -36,10 +34,16 @@ func main() {
 	// Contact the server and print out its response.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Key: *key, Val: *val})
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Key: _key, Val: _val})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("%s", r.GetVal())
+	return r
 }
 
+func main() {
+	flag.Parse()
+	// Set up a connection to the server.
+	r := sendRequest(*key, *val)
+	log.Printf("%s", r.GetVal())
+}
